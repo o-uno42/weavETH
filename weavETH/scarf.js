@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, Image, View, Dimensions, StyleSheet } from 'react-native';
 
+
 const images = [
   { id: '1', src: require('./assets/1.jpg') },
   { id: '2', src: require('./assets/2.jpg') },
@@ -8,6 +9,7 @@ const images = [
 ];
 
 const screenWidth = Dimensions.get('window').width;
+const imageSize = screenWidth * 0.6;
 
 export default function Scarf() {
   return (
@@ -15,7 +17,7 @@ export default function Scarf() {
       data={images}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item }) => (
+      renderItem={({ item, }) => (
         <Image
           source={item.src}
           style={styles.image}
@@ -25,7 +27,16 @@ export default function Scarf() {
       ItemSeparatorComponent={() => (
         <View style={styles.separator}>
           <Image
-            source={require('./assets/thread.png')}
+            source={require('./assets/threads.png')}
+            style={styles.thread}
+            resizeMode="contain"
+            />
+        </View>
+      )}
+      ListFooterComponent={() => (
+        <View style={styles.separator}>
+          <Image
+            source={require('./assets/threads.png')}
             style={styles.thread}
             resizeMode="contain"
           />
@@ -37,8 +48,8 @@ export default function Scarf() {
 
 const styles = StyleSheet.create({
   image: {
-    width: screenWidth - 20,
-    height: 200,
+    width:imageSize,
+    height: imageSize,
     borderRadius: 10,
     alignSelf: 'center',
     marginBottom: 20, // spazio per sovrapposizione della croce
@@ -52,10 +63,10 @@ const styles = StyleSheet.create({
     marginBottom: -10, // sovrapposizione sotto
   },
   thread: {
-    width: 30,
-    height: 30,
+    width: screenWidth * 0.6,
+    height: screenWidth * 0.6,
     position: 'absolute',
-    top: -15, // metà altezza per uscire sopra
+    top: -screenWidth *0.31, // metà altezza per uscire sopra
     zIndex: 10,
   },
 });

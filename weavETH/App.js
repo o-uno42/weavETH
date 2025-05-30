@@ -1,16 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Scarf from './scarf';
+import StackNavigator from './Navigator';
+import 'react-native-gesture-handler';
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <Text>Open up App.js to start working on your app!</Text> */}
-      <Scarf />
-      {/* <StatusBar style="auto" /> */}
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StackNavigator />
+    </GestureHandlerRootView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
