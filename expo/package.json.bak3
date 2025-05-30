@@ -1,5 +1,5 @@
 {
-  "name": "tightknit",
+  "name": "hack_prage",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -8,14 +8,23 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-community/netinfo": "^11.4.1",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
-    "expo": "~53.0.9",
+    "@walletconnect/core": "^2.21.0",
+    "@walletconnect/jsonrpc-utils": "^1.0.8",
+    "@walletconnect/modal-react-native": "1.1.0",
+    "@walletconnect/react-native-compat": "2.21.0",
+    "ethers": "^5.8.0",
+    "expo": "^53.0.9",
+    "expo-application": "~6.1.4",
     "expo-blur": "~14.1.4",
     "expo-constants": "~17.1.6",
     "expo-font": "~13.3.1",
@@ -28,22 +37,34 @@
     "expo-symbols": "~0.4.4",
     "expo-system-ui": "~5.0.7",
     "expo-web-browser": "~14.1.6",
+    "nativewind": "^4.1.23",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.2",
     "react-native-gesture-handler": "~2.24.0",
+    "react-native-get-random-values": "^1.11.0",
+    "react-native-modal": "^14.0.0-rc.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
+    "react-native-svg": "15.11.2",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5"
+    "react-native-webview": "13.13.5",
+    "tailwindcss": "^3.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
-    "typescript": "~5.8.3",
+    "babel-plugin-transform-import-meta": "^2.3.2",
     "eslint": "^9.25.0",
-    "eslint-config-expo": "~9.2.0"
+    "eslint-config-expo": "~9.2.0",
+    "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "valtio": "1.7.4"
+  }
 }
