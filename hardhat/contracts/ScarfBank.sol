@@ -27,6 +27,7 @@ contract ScarfBank is ERC721, Ownable {
 	error NumberInsecure(string msg);
 	error StakeToLow(uint256 paidAmount, uint256 requiredPrice);
 	error InitiatorStakeToLow(string msg);
+	error SameAddressProvided(string msg, address provided);
 
 	//STRUCTS
 	struct ScarfWallet {
@@ -98,9 +99,11 @@ contract ScarfBank is ERC721, Ownable {
 	//USER INTERFACE
 	//create wallet and token 
 	// 1st user starts stake
-	function proposeNewScarf(address coOwner) public payable returns (uint256 password) {
+	function proposeNewScarf(address coOwner, uint256 password) public payable returns (uint256 pass) {
 		if (msg.value < priceSCARF)
 			revert StakeToLow(msg.value, priceSCARF);
+		if (msg.sender == coOwner)
+			revert SameAddressProvided("cannot use the same address", msg.sender);
 
 		//refund logic (if stake to high)
 		uint256 refund = msg.value - priceSCARF;
@@ -114,7 +117,7 @@ contract ScarfBank is ERC721, Ownable {
 		userBalances[msg.sender] = newValue;
 
 		//create random number for password
-		uint256 newPassword = proposalsCount + 1; //getSecureRandomNumber();
+		uint256 newPassword = password; //proposalsCount + 1; //getSecureRandomNumber();
 		//creating pendingProposals entry
 		pendingProposals[newPassword] = PendingProposal({
 			hashCode: newPassword,
@@ -159,6 +162,17 @@ contract ScarfBank is ERC721, Ownable {
 			scarfId: scarfIdCount, 
 			memoryIds: new uint256[](0)
 		});
+
+		if (scarfBank[walletCount].owner1 == scarfBank[walletCount].owner2) {
+			payable(proposal.proposer).transfer(priceSCARF);
+			revert SameAddressProvided("cannot provide the same address", msg.sender);
+		}
+
+		//pushing wallet to userbank
+		UserBank[msg.sender].push(walletCount);
+		UserBank[proposal.proposer].push(walletCount);
+
+
 		walletCount++;
 
 		//mint scarf token
@@ -180,6 +194,11 @@ contract ScarfBank is ERC721, Ownable {
 	//transfer token from shared wallet
 
 	//delete token and wallet
+
+	//add memory token id to wallet
+	// function addMemoryToken(uint256 memoryId) public {
+
+	// }
 
 
 	//CONTRACT INTERFACE
