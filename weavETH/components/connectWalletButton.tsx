@@ -32,14 +32,22 @@ export default function ConnectWalletButton({ isConnected, provider, open }: Pro
 
 const styles = StyleSheet.create({
   connectButton: {
-    backgroundColor: '#222',
-    padding: 12,
+    backgroundColor: '#6600ff',
     borderRadius: 8,
+     borderWidth: 2,
+    borderColor: '#000',
+    borderStyle: 'dashed',
+    // backgroundColor: '#222',
+    padding: 12,
+    // borderRadius: 8,
     marginBottom: 16,
+    fontFamily: 'Marimpa',
     width: 220,
     alignItems: 'center',
   },
   connectButtonText: {
+    fontFamily: 'Marimpa',
+    fontSize: 20,
     color: '#fff',
     fontWeight: '600',
   },

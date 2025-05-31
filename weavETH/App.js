@@ -6,6 +6,12 @@ import 'react-native-gesture-handler';
 
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Mahamaya: require('./assets/fonts/Mahamaya.otf'), // <-- Assicurati che il path sia corretto
+  });
+  if (!fontsLoaded) {
+  return null; // o uno splash screen
+}
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StackNavigator />

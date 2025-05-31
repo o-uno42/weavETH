@@ -5,7 +5,8 @@ import SetGreetingButton from '@/components/setGreetingsButton';
 import IncrementCounterButton from '@/components/incrementCounterButton';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-
+import { ImageBackground } from 'react-native';
+import InviteFriendButton from '@/components/inviteAFriend';
 const projectID = '2539ce9d2ee10ddd1360a0f36ee741de';
 
 const providerMetadata = {
@@ -39,9 +40,14 @@ export default function HomeScreen() {
   }, [provider]);
 
   return (
+        <ImageBackground
+          source={require('./../assets/sprites/bg.png')}  // o uri per immagini remote
+          style={styles.container}
+          resizeMode="cover"  // opzioni: cover, contain, stretch, repeat
+        >
     <View style={styles.container}>
-      <Text style={styles.heading}>Smart Contract Interaction</Text>
-      <Text>{isConnected ? address : 'no wallet connected'}</Text>
+      <Text style={styles.heading}>Start knitting!</Text>
+      <Text>{isConnected ? address : '(no wallet connected)'}</Text>
 
       <ConnectWalletButton 
         isConnected={isConnected} 
@@ -71,7 +77,13 @@ export default function HomeScreen() {
         projectId={projectID}
         providerMetadata={providerMetadata}
       />
+
+      <InviteFriendButton/>
+
+      
+
     </View>
+    </ImageBackground>
   );
 }
 
@@ -80,12 +92,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#F5FCFF',
     padding: 24,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 16,
+    fontFamily: 'Marimpa',
   },
 });

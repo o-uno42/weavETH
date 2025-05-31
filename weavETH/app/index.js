@@ -16,13 +16,19 @@ export default function Page() {
       resizeMode="cover"  // opzioni: cover, contain, stretch, repeat
     >
       {/* <ButtonGoBack style={styles.backButton}/> */}
-    <View style={styles.container}>
-      <Scarf />
-      <TouchableOpacity
-        style={styles.buttonContainer}
+    <View style={styles.containerForButtons}>
+      {/* <Scarf /> */}
+      {/* <TouchableOpacity
+        style={styles.onlyButton}
         onPress={() => navigation.navigate('ShowCollection')}  // Ora navigation è definito
       >
-        <Text style={styles.buttonText}>Sew new memory</Text>
+        <Text style={styles.onlyButtonText}>About</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        style={styles.onlyButton}
+        onPress={() => navigation.navigate('ConnectWalletPage')}  // Ora navigation è definito
+      >
+        <Text style={styles.onlyButtonText}>Start</Text>
       </TouchableOpacity>
     </View>
     </ImageBackground>

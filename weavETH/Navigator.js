@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PageScarft from './app/PageScarf';
+import ShowCollection from './app/ShowCollection';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,8 +17,9 @@ export default function StackNavigator() {
     >
       {/* <Stack.Screen name="SplashScreen" component={SplashScreenAnimation} /> */}
       <Stack.Screen name="Page" component={Page} />
+      <Stack.Screen name="ConnectWalletPage" component={ConnectWalletPage} />
       <Stack.Screen name="PageScarft" component={PageScarft} />
-      <StackScreen name="ShowCollection" component={ShowCollection} />
+      <Stack.Screen name="ShowCollection" component={ShowCollection} />
     </Stack.Navigator>
   );
 }

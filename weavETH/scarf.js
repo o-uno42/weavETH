@@ -1,27 +1,25 @@
 import React, { useRef, useEffect } from 'react';
-import { FlatList, Image, View, Dimensions, StyleSheet } from 'react-native';
-
+import { FlatList, Image, View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const images = [
-  { id: '1', src: require('./assets/1.jpg') },
-  { id: '2', src: require('./assets/2.jpg') },
-  { id: '3', src: require('./assets/3.jpg') },
+  { id: '1', src: require('./assets/1.jpg'), targetScreen: 'ShowCollection' },
+  { id: '2', src: require('./assets/2.jpg'), targetScreen: 'ShowCollection' },
+  { id: '3', src: require('./assets/3.jpg'), targetScreen: 'ShowCollection' },
 ];
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const imageSize = screenWidth * 0.6;
 
-// Calcola l'altezza totale del contenuto
-const totalContentHeight = (imageSize + 20) * images.length; // altezza immagini + margini
-// Calcola quanto scrollare per avere la fine a metà schermo
+const totalContentHeight = (imageSize + 20) * images.length;
 const scrollToShowEndAtMiddle = totalContentHeight - (screenHeight / 2);
 
 export default function Scarf() {
   const flatListRef = useRef(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    // Scrolla alla posizione desiderata dopo che il componente è montato
     setTimeout(() => {
       flatListRef.current?.scrollToOffset({
         offset: scrollToShowEndAtMiddle,
@@ -29,6 +27,10 @@ export default function Scarf() {
       });
     }, 100);
   }, []);
+
+  const onPressImage = (targetScreen) => {
+    navigation.navigate(targetScreen);
+  };
 
   return (
     <FlatList
@@ -42,26 +44,35 @@ export default function Scarf() {
       overScrollMode="never"
       scrollEventThrottle={16}
       contentContainerStyle={styles.contentContainer}
-      renderItem={({ item, }) => (
-        <Image
-          source={item.src}
-          style={styles.image}
-          resizeMode="cover"
-        />
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => onPressImage(item.targetScreen)}
+          style={{ alignItems: 'center' }}
+        >
+          <Image
+            source={item.src}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
       )}
       ItemSeparatorComponent={() => (
-        <View style={styles.separator}>
+        <View style={styles.separator} >
           <Image
-            source={require('./assets/threads.png')}
+          pointerEvents="none"
+
+            source={require('./assets/sprites/threads.png')}
             style={styles.thread}
             resizeMode="contain"
-            />
+          />
         </View>
       )}
       ListFooterComponent={() => (
         <View style={styles.separator}>
           <Image
-            source={require('./assets/threads.png')}
+          pointerEvents="none"
+            source={require('./assets/sprites/threads.png')}
             style={styles.thread}
             resizeMode="contain"
           />
@@ -73,37 +84,33 @@ export default function Scarf() {
 
 const styles = StyleSheet.create({
   container: {
-    // position: 'absolute',
     top: 0,
     left: 0,
     width: screenWidth,
     height: screenHeight,
-    // zIndex: 1000,
   },
   contentContainer: {
-    // paddingTop: screenHeight, // padding sopra per scrollare oltre il top
-    paddingBottom: screenHeight - screenHeight / 2.2, // padding sotto per scrollare oltre il bottom
+    paddingBottom: screenHeight - screenHeight / 2.2,
   },
   image: {
-    width:imageSize,
+    width: imageSize,
     height: imageSize,
     borderRadius: 10,
-    alignSelf: 'center',
-    marginBottom: 20, // spazio per sovrapposizione della croce
+    marginBottom: 20,
   },
   separator: {
-    height: 0, // nessun spazio aggiuntivo
+    height: 0,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    marginTop: -10,  // sovrapposizione sopra
-    marginBottom: -10, // sovrapposizione sotto
+    marginTop: -10,
+    marginBottom: -10,
   },
   thread: {
     width: screenWidth * 0.6,
     height: screenWidth * 0.6,
     position: 'absolute',
-    top: -screenWidth *0.31, // metà altezza per uscire sopra
+    top: -screenWidth * 0.31,
     zIndex: 10,
   },
 });
