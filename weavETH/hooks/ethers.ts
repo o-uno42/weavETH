@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
-import { GREETER_ABI } from '@/constants/Greeter_ABI';
-import { COUNTER_ABI } from '@/constants/Counter_ABI';
+import { MEMORYTOKENS_ABI } from '@/constants/MemoryTokens_ABI';
 import { SCARF_BANK_ABI } from '@/constants/ScarfBank_ABI';
 import { CONTRACT_ADDRESSES_BY_CHAIN} from '@/constants/addresses';
 
@@ -16,27 +15,6 @@ export const getSigner = (walletProvider: any) => {
     return getWeb3Provider(walletProvider).getSigner();
 };
 
-export const getGreeterContract = (walletProvider: any, chainId: number) => {
-    const signer = getWeb3Provider(walletProvider).getSigner();
-    const greeterAddress = CONTRACT_ADDRESSES_BY_CHAIN[chainId]?.GREETER_ADDRESS;
-    if (!greeterAddress || !ethers.utils.isAddress(greeterAddress)) {
-      throw new Error(`Invalid or missing Greeter address for chainId ${chainId}`);
-    }
-    console.log('Greeter address:', greeterAddress);
-    console.log('chainId:', chainId);
-    return new ethers.Contract(greeterAddress, GREETER_ABI, signer);
-  };
-
-export const getCounterContract = (walletProvider: any, chainId: number) => {
-    const signer = getSigner(walletProvider);
-    const counterAddress = CONTRACT_ADDRESSES_BY_CHAIN[chainId]?.COUNTER_ADDRESS;
-    if (!counterAddress || !ethers.utils.isAddress(counterAddress)) {
-      throw new Error(`Invalid or missing Counter address for chainId ${chainId}`);
-    }
-    console.log('Counter address:', counterAddress);
-    console.log('chainId:', chainId);
-    return new ethers.Contract(counterAddress, COUNTER_ABI, signer);
-};
 
 export const getScarfBankContract = (walletProvider: any, chainId: number) => {
   const signer = getSigner(walletProvider);
@@ -47,4 +25,15 @@ export const getScarfBankContract = (walletProvider: any, chainId: number) => {
   console.log('ScarfBank address:', scarfBankAddress);
   console.log('chainId:', chainId);
   return new ethers.Contract(scarfBankAddress, SCARF_BANK_ABI, signer);
+};
+
+export const getMemoryTokensContract = (walletProvider: any, chainId: number) => {
+  const signer = getSigner(walletProvider);
+  const memoryTokensAddress = CONTRACT_ADDRESSES_BY_CHAIN[chainId]?.MEMORYTOKENS_ADDRESS;
+  if (!memoryTokensAddress || !ethers.utils.isAddress(memoryTokensAddress)) {
+      throw new Error(`Invalid or missing MemoryTokens address for chainId ${chainId}`);
+  }
+  console.log('MemoryTokens address:', memoryTokensAddress);
+  console.log('chainId:', chainId);
+  return new ethers.Contract(memoryTokensAddress, MEMORYTOKENS_ABI, signer);
 };

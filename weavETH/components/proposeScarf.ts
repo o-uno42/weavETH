@@ -34,9 +34,13 @@ export const proposeScarf = async ({
   const generatedPassword = Math.floor(100000 + Math.random() * 900000).toString();
 
   try {
+    console.log('Proposing scarf with password:', generatedPassword);
+    console.log('chainId:', chainId);
     const scarfContract = getScarfBankContract(provider, chainId);
+    const priceSCARF = await scarfContract.priceSCARF();
+    //console.log('ScarfBank contract:', scarfContract);
     const tx = await scarfContract.proposeNewScarf(coOwnerAddress, generatedPassword, {
-      value: ethers.utils.parseEther('0.001'),
+      value: priceSCARF,
     });
 
     await tx.wait();

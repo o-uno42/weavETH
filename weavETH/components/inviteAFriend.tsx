@@ -1,40 +1,48 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { TextInput, StyleSheet, View, Text } from 'react-native';
 
-const InviteFriendButton: React.FC = () => {
-    
-  const handlePress = () => {
-    console.log('Button pressed!');
-  };
-
+const InviteFriendInput: React.FC<{ value: string; onChangeText: (text: string) => void }> = ({
+  value,
+  onChangeText,
+}) => {
   return (
-    // <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>Invite a special person</Text>
-      </TouchableOpacity>
-    // </View>
+    <View style={styles.container}>
+      <Text style={styles.label}>Invite a special person</Text>
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder="Enter their wallet address"
+        placeholderTextColor="#aaa"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
+    </View>
   );
 };
 
-
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#7057a9',
-    padding: 12,
+  container: {
     marginTop: 12,
-    borderRadius: 8,
-    width: 220,
-    alignItems: 'center',
-    // borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#402f27',
-    borderStyle: 'dashed',
+    alignItems: 'flex-start',
   },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
+  label: {
+    color: '#402f27',
     fontFamily: 'Marimpa',
+    marginBottom: 6,
+    fontSize: 16,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderColor: '#402f27',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderRadius: 8,
+    padding: 12,
+    width: 220,
+    fontFamily: 'Marimpa',
+    color: '#000',
   },
 });
 
-export default InviteFriendButton;
+export default InviteFriendInput;
