@@ -6,6 +6,7 @@ import { ImageBackground } from "react-native";  // Importa ImageBackground
 import styles from './styles.js';  // Assicurati di avere un file styles.js con gli stili definiti
 import ButtonGoBack from "../components/backButton.js";
 
+
 export default function Page() {
   const navigation = useNavigation();  // <-- Aggiungi questa riga
 

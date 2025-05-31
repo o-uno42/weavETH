@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 
 const InviteFriendButton: React.FC = () => {
+    
   const handlePress = () => {
     console.log('Button pressed!');
   };

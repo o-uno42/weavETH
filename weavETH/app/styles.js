@@ -30,21 +30,20 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: '#ff884d',
-    padding: 15,
+    backgroundColor: '#7057a9',
+    padding: 12,
+    marginTop: 12,
     borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#000',
-    borderStyle: 'dashed',
-    marginTop: 20,
-    width: '100%',
+    width: 220,
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#402f27',
+    borderStyle: 'dashed',
   },
-
   buttonText: {
-    color: '#000',
-    fontSize: 25, // was 20 + 5
-    ...commonFont,
+    color: '#fff',
+    fontWeight: '600',
+    fontFamily: 'Marimpa',
   },
 
   text: {
@@ -132,6 +131,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
+  itemWrapper:{
+    margin: -100,
+  }
 });
 
 export default styles;

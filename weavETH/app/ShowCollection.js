@@ -8,27 +8,61 @@ import SplashScreen from 'expo-splash-screen';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
+import { ImageBackground } from 'react-native';  // Importa ImageBackground
 
+import SewNewScarfButton from '../components/SewNewScarf.js';
 import Scarf from '../scarf.js';
 
-export default function Landing({navigation}) {
+export default function ShowCollection({navigation}) {
     const scarfsData = Array.from({ length: 5 }, (_, i) => ({ id: i.toString() }));
 
     return (
-      <SafeAreaView style={styles.container}>
-        {/* View container principale */}
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={scarfsData}
-            keyExtractor={(item) => item.id}
-            horizontal={true}
-            renderItem={({ item }) => 
-              <View style={styles.itemWrapper}>
-                <Scarf />
-              </View>
-            }
-          />
+      <ImageBackground
+        source={require('./../assets/sprites/bg.png')}
+        style={styles.container}
+        resizeMode="cover"
+      >
+        <SafeAreaView style={styles.container}>
+         <View style={localStyles.contentContainer}>
+        <FlatList
+          data={scarfsData}
+          keyExtractor={(item) => item.id}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={localStyles.flatListContent}
+          renderItem={({ item }) => (
+            <View style={localStyles.itemWrapper}>
+              <Scarf />
+            </View>
+          )}
+        />
+      </View>
+      <View style={localStyles.newcontainer}>
+          <SewNewScarfButton />
         </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ImageBackground>
     );
 }
+
+const localStyles = StyleSheet.create({
+newcontainer: {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  alignItems: 'center',
+  padding: 20,
+},
+
+  contentContainer: {
+    flex: 1,
+  },
+  flatListContent: {
+    paddingHorizontal: 0,  // aggiungi padding interno alla FlatList
+    alignItems: 'center',
+  },
+  itemWrapper: {
+    marginHorizontal: -40,   // margine tra gli elementi
+  },
+});

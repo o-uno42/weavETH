@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { ImageBackground } from 'react-native';
 import InviteFriendButton from '@/components/inviteAFriend';
+import ShowCollectionButton from '@/components/showCollectionButton';
 const projectID = '2539ce9d2ee10ddd1360a0f36ee741de';
 
 const providerMetadata = {
@@ -79,6 +80,7 @@ export default function HomeScreen() {
       />
 
       <InviteFriendButton/>
+      <ShowCollectionButton/>
 
       
 
