@@ -1,0 +1,203 @@
+
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+// Useful for debugging. Remove when deploying to a live network.
+import "hardhat/console.sol";
+
+import  {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import {ContractRegistry} from "@flarenetwork/flare-periphery-contracts/coston2/ContractRegistry.sol";
+import {RandomNumberV2Interface} from "@flarenetwork/flare-periphery-contracts/coston2/RandomNumberV2Interface.sol";
+// import "@openzeppelin/contracts/utils/Counters.sol";
+
+
+/**
+	comment pending ...
+*/
+
+contract ScarfBank is ERC721, Ownable {
+	//EVENTS
+	event ScarfProposed(address owner,string msg, address coOwner);
+	event ScarfCreated(address owner, string msg, address initiator);
+
+	//ERRORS
+	error NumberInsecure(string msg);
+	error StakeToLow(uint256 paidAmount, uint256 requiredPrice);
+	error InitiatorStakeToLow(string msg);
+
+	//STRUCTS
+	struct ScarfWallet {
+		uint256		hashCode;
+		address		owner1;
+		address		owner2;
+		uint256		scarfId;
+		uint256[]	memoryIds;
+	}
+	
+	struct PendingProposal {
+		uint256	hashCode;
+		address proposer;
+		address coOwner;
+		uint256 proposerStake;
+		bool	coOwnerStaked;
+	}
+
+	//VARS
+	//basic addresses
+    // address public immutable owner;
+
+	//scarfBank key: id, value: struct
+	mapping(uint256 => ScarfWallet) public scarfBank;
+	//userBank key:address, value: array of co-owned scarfWallet ids
+	mapping(address => uint256[]) public UserBank;
+
+	//staking transactions
+	mapping(address => uint256) public userBalances;
+	//pending proposals
+	mapping(uint256 => PendingProposal) public pendingProposals;
+
+	//price of ScarfNFT
+	uint256	public priceSCARF = 10000000000; //100000000000000;
+
+	//counts/tracking
+	uint256	private	walletCount;
+	uint256 private proposalsCount;
+	uint256	private	scarfIdCount;
+
+	//flare random number generator
+	// RandomNumberV2Interface internal randomV2;
+
+
+	//CONSTRUCTOR
+	 constructor(address initialOwner, address randomV2address)
+        ERC721("ScarfNFT", "SCARF")
+        Ownable(initialOwner)
+    {
+		// require(randomV2address != address(0), "randomV2 address zero");
+		// randomV2 = RandomNumberV2Interface(randomV2address);
+	}
+
+	//FUNCTIONS
+
+	//Flares random number generator
+	// function getSecureRandomNumber()
+	// 	internal
+        // view
+        // returns (uint256 randomNumber)
+    // {
+	// 	bool isSecure;
+        // (randomNumber, isSecure, ) = randomV2.getRandomNumber();
+	// 	if (!isSecure || randomNumber == 0)
+	// 		revert NumberInsecure("random number generated was insecure");
+        // require(isSecure, "Random number is not secure");
+        // return (randomNumber);
+    // }
+	//USER INTERFACE
+	//create wallet and token 
+	// 1st user starts stake
+	function proposeNewScarf(address coOwner) public payable returns (uint256 password) {
+		if (msg.value < priceSCARF)
+			revert StakeToLow(msg.value, priceSCARF);
+
+		//refund logic (if stake to high)
+		uint256 refund = msg.value - priceSCARF;
+		uint256	newValue = msg.value;
+		if (refund > 0) {
+			payable(msg.sender).transfer(refund);
+			newValue = msg.value - refund;
+		}
+
+		//saving user balance
+		userBalances[msg.sender] = newValue;
+
+		//create random number for password
+		uint256 newPassword = proposalsCount + 1; //getSecureRandomNumber();
+		//creating pendingProposals entry
+		pendingProposals[newPassword] = PendingProposal({
+			hashCode: newPassword,
+			proposer: msg.sender,
+			coOwner: coOwner,
+			proposerStake: newValue,
+			coOwnerStaked: false
+		});
+		//TODO emit event
+		proposalsCount++;
+		emit ScarfProposed(msg.sender, "proposed a new scarf to share with", coOwner);
+		return (newPassword);
+	}
+	
+	//2nd user completes the creation, ends staking period
+	function scarfCreation(uint256 password) public payable {
+		//initial checks of balances staked
+		uint256 initiatorStake = pendingProposals[password].proposerStake;
+		if (initiatorStake < priceSCARF)
+			revert InitiatorStakeToLow("initiator stake to low or nonexistent");
+
+		//refund logic
+		if (msg.value < priceSCARF || msg.value + initiatorStake < priceSCARF * 2)
+			revert StakeToLow(msg.value, priceSCARF);
+		uint256 refund = msg.value - priceSCARF;
+		uint256	newValue = msg.value;
+		if (refund > 0) {
+			payable(msg.sender).transfer(refund);
+			newValue = msg.value - refund;
+		}
+
+		PendingProposal storage proposal = pendingProposals[password];
+
+		//saving user balance
+		// userBalances[msg.sender] = newValue;
+
+		//creating new wallet
+		scarfBank[walletCount] = ScarfWallet({
+			hashCode: proposal.hashCode,
+			owner1: proposal.proposer,
+			owner2: msg.sender,
+			scarfId: scarfIdCount, 
+			memoryIds: new uint256[](0)
+		});
+		walletCount++;
+
+		//mint scarf token
+		_mint(address(this), scarfIdCount);
+		scarfIdCount++;
+		
+		//correcting initiator staked balance after minting
+		userBalances[proposal.proposer] -= priceSCARF;
+
+		//deleting proposal
+		delete pendingProposals[password];
+		// proposalsCount--;
+
+		emit ScarfCreated(msg.sender, "created scarf with ", scarfBank[walletCount -1].owner1);
+	}
+
+	//change first token
+
+	//transfer token from shared wallet
+
+	//delete token and wallet
+
+
+	//CONTRACT INTERFACE
+
+	// setPrice of wallet/scarftoken
+	function setPriceSCARF(uint256 newPrice) external onlyOwner {
+		priceSCARF = newPrice;
+	}
+
+	// withdraw money from contract
+	function withdraw() external onlyOwner {
+		payable(owner()).transfer(address(this).balance);
+	}
+
+
+	// get user/address info
+
+	// get wallet info
+
+
+}
