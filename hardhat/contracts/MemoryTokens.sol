@@ -20,16 +20,23 @@ import "./ScarfBank.sol";
 contract MemoryTokens is ERC721, Ownable, ERC721URIStorage {
 
 	//EVENTS
+	event Minted(uint256 MEMid, address minter);
 
 
 	//ERRORS
 	error NoScarfContract(string msg);
+	error InsuficentAmount(string msg, uint256 requiredAmount);
 
 	//VARS
 
 	//import address
 	address public ScarfBankContract;
 	ScarfBank public scarfBank;
+
+	uint256		memoryCount;
+	uint256		priceMEM = 10000000000;
+
+	
 
 
 	//CONSTRUCTOR
@@ -39,7 +46,7 @@ contract MemoryTokens is ERC721, Ownable, ERC721URIStorage {
 	Ownable(initialOwner)
 	{
 		if (_ScarfBankContract == address(0))
-			revert NoScarfContract("could not retrive ScarfBank address in memoryTokens");
+			revert NoScarfContract("could not retrieve ScarfBank address in memoryTokens");
 		ScarfBankContract = _ScarfBankContract;
 		scarfBank = ScarfBank(ScarfBankContract);
 	}
@@ -47,6 +54,39 @@ contract MemoryTokens is ERC721, Ownable, ERC721URIStorage {
 
 	//FUNCTIONS
 
+	function mintMemory(string memory uri, uint256 scarfId) public payable {
+		if (msg.value < priceMEM)
+			revert InsuficentAmount("you need to pay", priceMEM);
+		uint256 refund = msg.value - priceMEM;
+		if (refund > 0)
+			payable(msg.sender).transfer(refund);
 
+		_safeMint(msg.sender, memoryCount);
+		_setTokenURI(memoryCount, uri);
+		scarfBank.addNewMemoryId(memoryCount, scarfId);
+		memoryCount++;
+
+		emit Minted(memoryCount - 1, msg.sender);
+	}
+
+
+	//required ovverides for tokenURI
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
 
 }

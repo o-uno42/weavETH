@@ -116,8 +116,8 @@ contract ScarfBank is ERC721, Ownable {
 		//saving user balance
 		userBalances[msg.sender] = newValue;
 
-		//create random number for password
-		uint256 newPassword = password; //proposalsCount + 1; //getSecureRandomNumber();
+		//import password
+		uint256 newPassword = password;
 		//creating pendingProposals entry
 		pendingProposals[newPassword] = PendingProposal({
 			hashCode: newPassword,
@@ -138,7 +138,7 @@ contract ScarfBank is ERC721, Ownable {
 		uint256 initiatorStake = pendingProposals[password].proposerStake;
 		if (initiatorStake < priceSCARF)
 			revert InitiatorStakeToLow("initiator stake to low or nonexistent");
-
+		
 		//refund logic
 		if (msg.value < priceSCARF || msg.value + initiatorStake < priceSCARF * 2)
 			revert StakeToLow(msg.value, priceSCARF);
@@ -195,10 +195,11 @@ contract ScarfBank is ERC721, Ownable {
 
 	//delete token and wallet
 
-	//add memory token id to wallet
-	// function addMemoryToken(uint256 memoryId) public {
-
-	// }
+	// add memory token id to wallet
+	 function addNewMemoryId(uint256 memoryId, uint256 scarfId) public {
+		 require(scarfBank[scarfId].owner1 != address(0), "not valid Scarf Token");
+		 scarfBank[scarfId].memoryIds.push(memoryId);
+	 }
 
 
 	//CONTRACT INTERFACE
