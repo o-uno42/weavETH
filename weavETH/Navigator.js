@@ -17,6 +17,7 @@ export default function StackNavigator() {
       {/* <Stack.Screen name="SplashScreen" component={SplashScreenAnimation} /> */}
       <Stack.Screen name="Page" component={Page} />
       <Stack.Screen name="PageScarft" component={PageScarft} />
+      <StackScreen name="ShowCollection" component={ShowCollection} />
     </Stack.Navigator>
   );
 }

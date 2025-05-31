@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { FlatList, Image, View, Dimensions, StyleSheet } from 'react-native';
 
 
@@ -9,14 +9,39 @@ const images = [
 ];
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 const imageSize = screenWidth * 0.6;
 
+// Calcola l'altezza totale del contenuto
+const totalContentHeight = (imageSize + 20) * images.length; // altezza immagini + margini
+// Calcola quanto scrollare per avere la fine a metà schermo
+const scrollToShowEndAtMiddle = totalContentHeight - (screenHeight / 2);
+
 export default function Scarf() {
+  const flatListRef = useRef(null);
+
+  useEffect(() => {
+    // Scrolla alla posizione desiderata dopo che il componente è montato
+    setTimeout(() => {
+      flatListRef.current?.scrollToOffset({
+        offset: scrollToShowEndAtMiddle,
+        animated: false,
+      });
+    }, 100);
+  }, []);
+
   return (
     <FlatList
+      ref={flatListRef}
+      style={styles.container}
       data={images}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
+      bounces={false}
+      alwaysBounceVertical={false}
+      overScrollMode="never"
+      scrollEventThrottle={16}
+      contentContainerStyle={styles.contentContainer}
       renderItem={({ item, }) => (
         <Image
           source={item.src}
@@ -47,6 +72,18 @@ export default function Scarf() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    // position: 'absolute',
+    top: 0,
+    left: 0,
+    width: screenWidth,
+    height: screenHeight,
+    // zIndex: 1000,
+  },
+  contentContainer: {
+    // paddingTop: screenHeight, // padding sopra per scrollare oltre il top
+    paddingBottom: screenHeight - screenHeight / 2.2, // padding sotto per scrollare oltre il bottom
+  },
   image: {
     width:imageSize,
     height: imageSize,

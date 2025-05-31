@@ -11,7 +11,7 @@ export default function Page() {
       <Scarf />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('PageScarf')}  // Ora navigation è definito
+        onPress={() => navigation.navigate('ShowCollection')}  // Ora navigation è definito
       >
         <Text style={styles.buttonText}>See scarf</Text>
       </TouchableOpacity>
