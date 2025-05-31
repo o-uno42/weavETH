@@ -1,4 +1,5 @@
 {
-  "ScarfBankModule#ScarfBank": "0x998Dfe2E16344A11e475DaBb80618B0e79Dbb2d7",
-  "MemoryTokensModule#MemoryTokens": "0x5bA6c90f16700001EF2702dEaDA95841c7DD481B"
+  "AchievementTokensModule#AchievementTokens": "0xf164C39e583A58aB4FFF91F69E9cFf9d5DBF1307",
+  "ScarfBankModule#ScarfBank": "0x2d413D06894937F88f0258eFF27dC8ed41aDc0cA",
+  "MemoryTokensModule#MemoryTokens": "0x9eB0AC418087E936740225Dc1316846066B0FA13"
 }

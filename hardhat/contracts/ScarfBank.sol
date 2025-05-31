@@ -1,4 +1,3 @@
-
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
@@ -6,12 +5,9 @@ pragma solidity ^0.8.28;
 import "hardhat/console.sol";
 
 import  {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import {ContractRegistry} from "@flarenetwork/flare-periphery-contracts/coston2/ContractRegistry.sol";
-import {RandomNumberV2Interface} from "@flarenetwork/flare-periphery-contracts/coston2/RandomNumberV2Interface.sol";
-// import "@openzeppelin/contracts/utils/Counters.sol";
+import "./AchievementTokens.sol";
 
 
 /**
@@ -22,12 +18,16 @@ contract ScarfBank is ERC721, Ownable {
 	//EVENTS
 	event ScarfProposed(address owner,string msg, address coOwner);
 	event ScarfCreated(address owner, string msg, address initiator);
+	event AchievementClaimed(string msg);
 
 	//ERRORS
 	error NumberInsecure(string msg);
 	error StakeToLow(uint256 paidAmount, uint256 requiredPrice);
 	error InitiatorStakeToLow(string msg);
 	error SameAddressProvided(string msg, address provided);
+	error NoContract(string msg);
+	error NotEligible(string msg);
+	error InvalidUser(string msg);
 
 	//STRUCTS
 	struct ScarfWallet {
@@ -36,6 +36,8 @@ contract ScarfBank is ERC721, Ownable {
 		address		owner2;
 		uint256		scarfId;
 		uint256[]	memoryIds;
+		uint256		achievementLevel;
+		bool		eligible;
 	}
 	
 	struct PendingProposal {
@@ -48,7 +50,8 @@ contract ScarfBank is ERC721, Ownable {
 
 	//VARS
 	//basic addresses
-    // address public immutable owner;
+	address public achievementTokensContract;
+	AchievementTokens public achievementTokens;
 
 	//scarfBank key: id, value: struct
 	mapping(uint256 => ScarfWallet) public scarfBank;
@@ -73,12 +76,15 @@ contract ScarfBank is ERC721, Ownable {
 
 
 	//CONSTRUCTOR
-	 constructor(address initialOwner, address randomV2address)
+	 constructor(address initialOwner, address _achievementTokensContract)
         ERC721("ScarfNFT", "SCARF")
         Ownable(initialOwner)
     {
-		// require(randomV2address != address(0), "randomV2 address zero");
-		// randomV2 = RandomNumberV2Interface(randomV2address);
+		if (_achievementTokensContract == address(0))
+			revert NoContract("could not retrieve achievementTokens address in memoryTokens");
+		achievementTokensContract = _achievementTokensContract;
+		achievementTokens = AchievementTokens(achievementTokensContract);
+
 	}
 
 	//FUNCTIONS
@@ -160,7 +166,9 @@ contract ScarfBank is ERC721, Ownable {
 			owner1: proposal.proposer,
 			owner2: msg.sender,
 			scarfId: scarfIdCount, 
-			memoryIds: new uint256[](0)
+			memoryIds: new uint256[](0),
+			achievementLevel: 0,
+			eligible: false
 		});
 
 		if (scarfBank[walletCount].owner1 == scarfBank[walletCount].owner2) {
@@ -195,10 +203,35 @@ contract ScarfBank is ERC721, Ownable {
 
 	//delete token and wallet
 
-	// add memory token id to wallet
+	// add memory token id to wallet // check if eligible for prize
 	 function addNewMemoryId(uint256 memoryId, uint256 scarfId) public {
 		 require(scarfBank[scarfId].owner1 != address(0), "not valid Scarf Token");
 		 scarfBank[scarfId].memoryIds.push(memoryId);
+		 if (scarfBank[scarfId].memoryIds.length % 3 == 0) {
+			 scarfBank[scarfId].eligible = true;
+			 scarfBank[scarfId].achievementLevel++;
+		 }
+	 }
+
+	 // if eligibility criteria is met, mint prize tokens
+	 function milestoneMinting(string memory svgData, uint256 scarfId) public {
+		if (scarfBank[scarfId].owner1 == msg.sender || scarfBank[scarfId].owner2 == msg.sender) {
+			if (!scarfBank[scarfId].eligible)
+				revert NotEligible("you are not eligible for milestone prize");
+			address otherOwner;
+			if (scarfBank[scarfId].owner1 == msg.sender)
+				otherOwner = scarfBank[scarfId].owner1;
+			else
+				otherOwner = scarfBank[scarfId].owner2;
+			achievementTokens.mintAchievement(msg.sender, otherOwner, svgData);
+			scarfBank[scarfId].eligible = false;
+			emit AchievementClaimed("successfully Claimed prize");
+		}
+		else {
+			revert InvalidUser("you are not the right person");
+		}
+
+
 	 }
 
 
