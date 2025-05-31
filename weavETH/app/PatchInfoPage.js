@@ -11,6 +11,8 @@ import Input from '@/components/input';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
 import styles from './styles';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
 import { useNavigation } from 'expo-router';
 const projectID = '2539ce9d2ee10ddd1360a0f36ee741de';
 
@@ -25,9 +27,9 @@ const providerMetadata = {
   },
 };
 
-const imageSource = require('./../assets/1.png'); // Assicurati che il percorso sia corretto
+const imageSource = require('./../assets/1.jpg'); // Assicurati che il percorso sia corretto
 
-export default function ScarfInfoPage() { //va passato l'nft nested
+export default function PatchInfoPage() { //va passato l'nft nested
     const navigation = useNavigation();
   //     const [text, setText] = useState('');
   // const { open, isConnected, address, provider } = useWalletConnectModal();
@@ -55,8 +57,8 @@ export default function ScarfInfoPage() { //va passato l'nft nested
       style={localStyles.container}
       resizeMode="cover"
     >
-        <View style={{ padding: 20 }}>
-            <Image source={imageSource} style={styles.image} />
+        <View style={{ padding: 20, alignItems: 'center' }}>
+            <Image source={imageSource} style={localStyles.image} />
             {/* <Input
                 label="Start stitching memories with..."
                 value={text}
@@ -126,4 +128,10 @@ const localStyles = StyleSheet.create({
     marginBottom: 16,
     fontFamily: 'Marimpa',
   },
+  image:{
+    width: 300,
+    height: 300,
+    borderRadius: 10,
+    marginBottom: 20,
+  }
 });

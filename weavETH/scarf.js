@@ -3,9 +3,9 @@ import { FlatList, Image, View, Dimensions, StyleSheet, TouchableOpacity } from 
 import { useNavigation } from '@react-navigation/native';
 
 const images = [
-  { id: '1', src: require('./assets/1.jpg'), targetScreen: 'ScarfInfoPage' },
-  { id: '2', src: require('./assets/2.jpg'), targetScreen: 'ScarfInfoPage' },
-  { id: '3', src: require('./assets/3.jpg'), targetScreen: 'ScarfInfoPage' },
+  { id: '1', src: require('./assets/1.jpg'), targetScreen: 'PageScarf' },
+  { id: '2', src: require('./assets/2.jpg'), targetScreen: 'PageScarf' },
+  { id: '3', src: require('./assets/3.jpg'), targetScreen: 'PageScarf' },
 ];
 
 const screenWidth = Dimensions.get('window').width;
