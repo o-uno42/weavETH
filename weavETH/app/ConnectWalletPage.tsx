@@ -4,7 +4,7 @@ import ConnectWalletButton from '@/components/connectWalletButton';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { ImageBackground } from 'react-native';
-import InviteFriendButton from '@/components/inviteAFriend';
+import AcceptInviteFriendButton from '@/components/acceptInviteAFriend';
 import ShowCollectionButton from '@/components/showCollectionButton';
 const projectID = '2539ce9d2ee10ddd1360a0f36ee741de';
 
@@ -89,7 +89,13 @@ export default function HomeScreen() {
         providerMetadata={providerMetadata}
       />
 
-      <InviteFriendButton/>
+      <AcceptInviteFriendButton
+        provider={provider}
+        address={address}
+        isConnected={isConnected}
+        chainId={chainId}
+        open={open}
+      />
       <ShowCollectionButton/>
 
       
