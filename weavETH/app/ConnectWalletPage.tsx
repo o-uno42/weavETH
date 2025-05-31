@@ -55,7 +55,7 @@ export default function HomeScreen() {
         provider={provider} 
         open={open} 
       />
-      <SetGreetingButton 
+      {/* <SetGreetingButton 
         isConnected={isConnected} 
         provider={provider} 
         open={open}
@@ -68,7 +68,7 @@ export default function HomeScreen() {
         open={open}
         address={address}
         chainId={chainId}
-      />
+      /> */}
 
       <WalletConnectModal
         explorerRecommendedWalletIds={[

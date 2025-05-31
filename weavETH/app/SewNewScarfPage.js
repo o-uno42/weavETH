@@ -12,6 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
 import styles from './styles';
 import { useNavigation } from 'expo-router';
+import ButtonGoBack from '../components/backButton';
 
 const projectID = '2539ce9d2ee10ddd1360a0f36ee741de';
 
@@ -54,6 +55,7 @@ export default function SewNewScarf() {
       style={localStyles.container}
       resizeMode="cover"
     >
+        <ButtonGoBack />
       <View style={{ padding: 20 }}>
         <Input
           label="Start stitching memories with..."

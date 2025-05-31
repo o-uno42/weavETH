@@ -97,6 +97,38 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
+  backButtonText: {
+    color: '#660033',
+    fontFamily: 'Marimpa',
+  },
+  
+  backButton: {
+    // position: 'absolute',
+    backgroundColor: '#ff9966',
+    padding: 5,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#660033',
+    borderStyle: 'dashed',
+    alignItems: 'center',
+
+    // bottom: 20,
+    // left: 20,
+    // right: 20,
+
+    // elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  notify:{
+    color: '#fff',
+    paddingLeft: 60,
+    paddingBottom: 8,
+    // justifyContent: 'right',
+    ...commonFont,},
+
 
   flatList: {
     flex: 1,
@@ -118,6 +150,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  buttonBottom: {
+    backgroundColor: '#7057a9',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#402f27',
+    borderStyle: 'dashed',
+    marginBottom: 16,
+    // paddingBottom: 20,
+    width: 220,
+    alignItems: 'center',
+  },
+
   onlyButtonText: {
     color: '#fff',
     fontWeight: '600',
@@ -131,6 +176,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
+  containerForButtonsHome: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    // justifyContent: 'center',
+    // marginTop: auto,
+    alignItems: 'center',
+    marginBottom: 20,
+    // paddingEnd: 20,
+    // paddingHorizontal: 20,
+  },
   itemWrapper:{
     margin: -100,
   },
@@ -138,26 +193,29 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 10,
-    marginTop: 10,
+    margin: 10,
     backgroundColor: '#f0f0f0',
   },
   loadingContainer: {
     alignItems: 'center',
-    marginTop: 20,
+    margin: 10,
+    // marginTop: 20,
   },
   loadingText: {
-    marginTop: 10,
+    margin: 10,
+    // marginTop: 10,
     fontSize: 14,
     color: '#666',
   },
   resultContainer: {
     alignItems: 'center',
-    marginTop: 30,
+    margin: 10,
   },
   resultLabel: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    margin: 10,
+    // marginBottom: 10,
   },
   result: {
     width: 200,
@@ -165,6 +223,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#f0f0f0',
   },
+  disabledButton: {
+  opacity: 0.5,
+}
+
 });
 
 export default styles;

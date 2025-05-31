@@ -19,6 +19,7 @@ import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import { Alert, ActivityIndicator } from 'react-native'; // Aggiungi questi
 import { ScrollView } from 'react-native';
+import ButtonGoBack from '../components/backButton';
 // import * as FileSystem from 'expo-file-system';
 // import { useNavigation } from 'expo-router';
 // 
@@ -32,6 +33,16 @@ export default function SewNewPatch() {
   const [resultUrl, setResultUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+const [isReady, setIsReady] = useState(false);
+useEffect(() => {
+  if (resultUrl) {
+    setIsReady(true);
+  }
+}, [resultUrl]);
+
+useEffect(() => {
+  setIsReady(false);
+}, [initImageUri, prompt]);
 
   const pickInitImage = async () => {
     try {
@@ -94,7 +105,7 @@ export default function SewNewPatch() {
 
   const generateImage = async () => {
     if (!initImageUri || !prompt.trim()) {
-      Alert.alert('Missing Input', 'Please select an image and enter a prompt');
+      Alert.alert('Missing memory', 'Please select an image or take a picture');
       return;
     }
 
@@ -129,7 +140,7 @@ export default function SewNewPatch() {
       const response = await fetch('https://api.stability.ai/v2beta/stable-image/control/style-transfer', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer sk-L9PiQtppjb7qmvMFIYT4OofbP5xPPb0mkStWg1z1CA2zyXVN', // usa un env var qui idealmente
+          'Authorization': 'Bearer ...', // usa un env var qui idealmente
           'Accept': 'image/*',
         },
         body: formData,
@@ -161,21 +172,22 @@ export default function SewNewPatch() {
       style={localStyles.container}
       resizeMode="cover"
     >
+        <ButtonGoBack />
+        {/* <Text style={localStyles.title}>Knit memory</Text> */}
       <ScrollView contentContainerStyle={localStyles.container} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Knit memory</Text>
-
-        <TouchableOpacity
-          style={styles.onlyButton}
-          onPress={pickInitImage}
-        >
-          <Text style={styles.onlyButtonText}>Choose image</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.onlyButton}
           onPress={takePhoto}
         >
           <Text style={styles.onlyButtonText}>Take a picture</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.onlyButton}
+          onPress={pickInitImage}
+        >
+          <Text style={styles.onlyButtonText}>Choose image</Text>
         </TouchableOpacity>
 
         {initImageUri && (
@@ -189,14 +201,7 @@ export default function SewNewPatch() {
           <Text style={styles.onlyButtonText}>Knit...</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.onlyButton}
-          onPress={() => { navigation.navigate('PageScarf') }}
-        >
-          <Text style={styles.onlyButtonText}>Sew to scarf</Text>
-        </TouchableOpacity>
-
-        {loading && (
+                {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" />
             <Text style={styles.loadingText}>Knitting...</Text>
@@ -205,9 +210,26 @@ export default function SewNewPatch() {
 
         {resultUrl && (
           <View style={styles.resultContainer}>
+            
             <Image source={{ uri: resultUrl }} style={styles.result} />
           </View>
+          
         )}
+
+        <TouchableOpacity
+        style={[
+            styles.onlyButton,
+            !isReady && styles.disabledButton
+        ]}
+        onPress={() => {
+            if (isReady) {
+            navigation.navigate('PageScarf');
+            }
+        }}
+        disabled={!isReady}
+        >
+        <Text style={styles.onlyButtonText}>Sew to scarf</Text>
+        </TouchableOpacity>
       </ScrollView>
     </ImageBackground>
   );
@@ -219,5 +241,16 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+  },
+  title: {
+    zIndex: 1,
+    position: 'absolute',
+    fontSize: 40,
+    top: 40,
+    fontWeight: 'bold',
+    marginTop: 20,
+    textAlign: 'center',
+    // color: '#fff',
+    fontFamily: 'Marimpa',
   },
 });

@@ -9,6 +9,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ImageBackground } from 'react-native';  // Importa ImageBackground
 import SewNewScarfButton from '../components/SewNewScarf.js';
 import Scarf from '../scarf.js';
+import ButtonGoBack from '../components/backButton.js';
+import { transform } from 'typescript';
+// import styles from './styles.js';
 
 export default function ShowCollection() {
     const scarfsData = Array.from({ length: 5 }, (_, i) => ({ id: i.toString() }));
@@ -35,7 +38,12 @@ export default function ShowCollection() {
         />
       </View>
       <View style={localStyles.newcontainer}>
+          <ButtonGoBack />
           <SewNewScarfButton />
+          <View style={styles.notify}>
+
+          <Text style={styles.text}>Swipe to see your collection</Text>
+          </View>
         </View>
         </SafeAreaView>
       </ImageBackground>
