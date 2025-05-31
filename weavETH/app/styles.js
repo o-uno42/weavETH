@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   container: {
     // paddingTop: 0,
     flex: 1,
-    backgroundColor: '#ffcc66',
+    // backgroundColor: '#ffcc66',
     fontFamily: 'Mahamaya',
   },
   content: {
@@ -52,6 +52,37 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontFamily: 'Mahamaya',
+  },
+  backButton:{
+    position: 'absolute',
+  },
+  buttonPlus:{
+     position: 'absolute',
+
+    backgroundColor: '#ff9966',
+    // fontColor: '#000',
+    // fontFamily: 'Mahamaya',
+    padding: 15,
+    borderRadius: 360,
+     borderWidth: 2,
+    borderColor: '#660033',
+    borderStyle: 'dashed',
+    // marginTop: 20,
+    // width: '100%',
+    alignItems: 'center',
+    fontFamily: 'Mahamaya',
+
+    bottom: 20,
+    left: 20,
+    right: 20,
+    // opzionale: per dare ombra e migliorare visibilità
+    // backgroundColor: 'white',
+    // borderRadius: 10,
+    elevation: 5, // ombra android
+    shadowColor: '#000', // ombra ios
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   buttonContainer: {
     position: 'absolute',

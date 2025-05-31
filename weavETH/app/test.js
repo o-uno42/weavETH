@@ -2,12 +2,13 @@ import { StyleSheet, Text, View } from "react-native";
 import Scarf from "../scarf.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { ImageBackground } from "react-native";  // Importa ImageBackground
 
 export default function Page() {
   const navigation = useNavigation();  // <-- Aggiungi questa riga
 
   return (
-    <ImageBackground
+        <ImageBackground
       source={require('./../assets/sprites/bg.png')}  // o uri per immagini remote
       style={styles.container}
       resizeMode="cover"  // opzioni: cover, contain, stretch, repeat
@@ -16,9 +17,9 @@ export default function Page() {
       <Scarf />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('index')}  // Ora navigation è definito
+        onPress={() => navigation.navigate('ShowCollection')}  // Ora navigation è definito
       >
-        <Text style={styles.buttonText}>Sew a new memory</Text>
+        <Text style={styles.buttonText}>See new memory</Text>
       </TouchableOpacity>
     </View>
     </ImageBackground>
@@ -29,7 +30,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    padding: 24,
+    paddingBottom: 10,
+    // padding: 24,
   },
   button: {
     marginTop: 20,
