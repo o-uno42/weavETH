@@ -31,7 +31,7 @@ export default function About() {
 
   return (
     <ImageBackground
-      source={require('./../assets/sprites/bg.png')}
+      source={require('./../assets/sprites/about.png')}
       style={localStyles.container}
       resizeMode="cover"
     >
@@ -43,9 +43,17 @@ export default function About() {
           <Text style={styles.backButtonText}>Go back</Text>
         </TouchableOpacity>
         </View>
+        <Text style={localStyles.localTitle}>About</Text>
       <ScrollView contentContainerStyle={localStyles.containerTexts} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>About</Text>
-         <Text style={localStyles.localText}>Our goal is to weave meaningful relationships on-chain, so that a trace of them may endure forever. Their moments become patches, forming a shared scarf between two people — creating a tight-knit community of scarf co-owners. </Text>
+         <Text style={localStyles.localText}>
+          Our goal is to weave meaningful relationships on-chain, so that a
+          trace of them may endure forever.</Text>
+          <Text style={localStyles.localText}>TightKnit celebrates and emphasises human connections, 
+            reminding them that commitment must be mutual.
+.         </Text>
+          <Text style={localStyles.localText}>We hope to onboard new users to web3 by focusing on
+            non-monetary aspects of it, in a user friendly way. </Text>
+          <Text style={localStyles.localText}>Backend: Tjaz Juvan / Fullstack: Amir Eid /Frontend - and graphics: Petra Giorgi</Text>
 {/* 
         <TouchableOpacity
           style={styles.onlyButton}
@@ -105,7 +113,7 @@ const localStyles = StyleSheet.create({
     padding: 20,
   },
   containerTexts: {
-    top: 80,
+    top: 60,
     // flex: 1,
     // flexGrow: 1,
     justifyContent: 'center',
@@ -116,5 +124,12 @@ const localStyles = StyleSheet.create({
   localText:{
     color: '3366ff',
     fontFamily: 'Marimpa',
-  }
+  },
+  localTitle: {
+    fontSize: 50,
+    // fontWeight: 'bold',
+    marginTop: 30,
+    fontFamily: 'Marimpa',
+    color: '3366ff',
+  },
 });

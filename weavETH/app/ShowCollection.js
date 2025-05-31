@@ -42,7 +42,8 @@ export default function ShowCollection() {
           <SewNewScarfButton />
           <View style={styles.notify}>
 
-          <Text style={styles.text}>Swipe to see your collection</Text>
+          <Text style={styles.text}>Swipe to see your scarfs -{'>'}</Text>
+
           </View>
         </View>
         </SafeAreaView>
