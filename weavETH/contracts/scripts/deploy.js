@@ -12,6 +12,11 @@ async function main() {
   const counter = await Counter.deploy();
   await counter.waitForDeployment();
   console.log("Counter deployed to:", await counter.getAddress());
+
+  const ScarfBank = await ethers.getContractFactory("ScarfBank");
+  const scarf = await ScarfBank.deploy();
+  await scarf.waitForDeployment();
+  console.log("Scarf deployed to:", await scarf.getAddress());
 }
 
 main().catch((error) => {

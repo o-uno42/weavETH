@@ -1,8 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { WalletConnectModal, useWalletConnectModal } from '@walletconnect/modal-react-native';
 import ConnectWalletButton from '@/components/connectWalletButton';
-import SetGreetingButton from '@/components/setGreetingsButton';
-import IncrementCounterButton from '@/components/incrementCounterButton';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { ImageBackground } from 'react-native';
@@ -22,23 +20,49 @@ const providerMetadata = {
 };
 
 export default function HomeScreen() {
+  const { client } = useWalletConnectModal();
   const { open, isConnected, address, provider } = useWalletConnectModal();
   const [chainId, setChainId] = useState<number | null>(null);
   useEffect(() => {
+    const clearSessionsAndPairings = async () => {
+      if (!client) return;
+  
+      const sessions = client.session.getAll();
+      for (const session of sessions) {
+        await client.session.delete({
+          topic: session.topic,
+          reason: { code: 6001, message: 'Session cleared on startup' },
+        });
+      }
+      const pairings = client.pairing.getAll();
+      for (const pairing of pairings) {
+        if (!pairing.active) {
+          await client.pairing.delete({
+            topic: pairing.topic,
+            reason: { code: 6000, message: 'Inactive pairing removed' },
+          });
+        }
+      }
+    };
+    clearSessionsAndPairings();
+  }, [client]);
+  useEffect(() => {
     const fetchChainId = async () => {
-      if (provider) {
+      if (provider && isConnected) {
         try {
           const web3Provider = new ethers.providers.Web3Provider(provider);
           const network = await web3Provider.getNetwork();
           setChainId(network.chainId);
-          console.log('Chain ID:', network.chainId);
+          console.log('Chain IDDD:', network.chainId);
         } catch (error) {
           console.error('Failed to get chain ID:', error);
         }
+      } else {
+        console.log('Provider not ready or not connected');
       }
-    };    
+    };
     fetchChainId();
-  }, [provider]);
+  }, [provider, isConnected]);
 
   return (
         <ImageBackground
@@ -55,20 +79,6 @@ export default function HomeScreen() {
         provider={provider} 
         open={open} 
       />
-      {/* <SetGreetingButton 
-        isConnected={isConnected} 
-        provider={provider} 
-        open={open}
-        address={address}
-        chainId={chainId}
-      />
-      <IncrementCounterButton 
-        isConnected={isConnected} 
-        provider={provider} 
-        open={open}
-        address={address}
-        chainId={chainId}
-      /> */}
 
       <WalletConnectModal
         explorerRecommendedWalletIds={[
