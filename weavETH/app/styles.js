@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   onlyButtonText: {
     color: '#fff',
     fontWeight: '600',
-    fontSize: 18, // +5, was implicit default or missing
+    fontSize: 18,
     ...commonFont,
   },
 
@@ -133,7 +133,38 @@ const styles = StyleSheet.create({
   },
   itemWrapper:{
     margin: -100,
-  }
+  },
+  preview: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginTop: 10,
+    backgroundColor: '#f0f0f0',
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: '#666',
+  },
+  resultContainer: {
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  resultLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  result: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    backgroundColor: '#f0f0f0',
+  },
 });
 
 export default styles;

@@ -6,51 +6,23 @@ import { ImageBackground } from "react-native";  // Importa ImageBackground
 import styles from './styles.js';  // Assicurati di avere un file styles.js con gli stili definiti
 import ButtonGoBack from "../components/backButton.js";
 
-
 export default function Page() {
-  const navigation = useNavigation();  // <-- Aggiungi questa riga
+  const navigation = useNavigation(); 
 
   return (
-      <ImageBackground
-      source={require('./../assets/sprites/bg.png')}  // o uri per immagini remote
+    <ImageBackground
+      source={require('./../assets/sprites/bg.png')} 
       style={styles.container}
-      resizeMode="cover"  // opzioni: cover, contain, stretch, repeat
+      resizeMode="cover"
     >
-      {/* <ButtonGoBack style={styles.backButton}/> */}
-    <View style={styles.containerForButtons}>
-      {/* <Scarf /> */}
-      {/* <TouchableOpacity
-        style={styles.onlyButton}
-        onPress={() => navigation.navigate('ShowCollection')}  // Ora navigation è definito
-      >
-        <Text style={styles.onlyButtonText}>About</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity
-        style={styles.onlyButton}
-        onPress={() => navigation.navigate('ConnectWalletPage')}  // Ora navigation è definito
-      >
-        <Text style={styles.onlyButtonText}>Start</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.containerForButtons}>
+        <TouchableOpacity
+          style={styles.onlyButton}
+          onPress={() => navigation.navigate('ConnectWalletPage')}  
+        >
+          <Text style={styles.onlyButtonText}>Start</Text>
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     paddingBottom: 10,
-//     // padding: 24,
-//   },
-//   button: {
-//     marginTop: 20,
-//     backgroundColor: "#007AFF",
-//     padding: 10,
-//     borderRadius: 5,
-//   },
-//   buttonText: {
-//     color: "#fff",
-//     fontWeight: "bold",
-//   },
-// });

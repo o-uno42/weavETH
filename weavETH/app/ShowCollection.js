@@ -1,7 +1,5 @@
-// import React from 'react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from 'react-native';
-
 import { SafeAreaView, View, FlatList, Text, StyleSheet, StatusBar } from 'react-native';
 import styles from './styles.js';
 import SplashScreen from 'expo-splash-screen';
@@ -9,11 +7,10 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { ImageBackground } from 'react-native';  // Importa ImageBackground
-
 import SewNewScarfButton from '../components/SewNewScarf.js';
 import Scarf from '../scarf.js';
 
-export default function ShowCollection({navigation}) {
+export default function ShowCollection() {
     const scarfsData = Array.from({ length: 5 }, (_, i) => ({ id: i.toString() }));
 
     return (

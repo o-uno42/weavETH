@@ -15,7 +15,15 @@ import { useNavigation } from 'expo-router';
 import { TextInput } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native';
+import * as FileSystem from 'expo-file-system';
+import { Asset } from 'expo-asset';
+import { Alert, ActivityIndicator } from 'react-native'; // Aggiungi questi
+import { ScrollView } from 'react-native';
+// import * as FileSystem from 'expo-file-system';
+// import { useNavigation } from 'expo-router';
+// 
 
+const styleImage = Image.resolveAssetSource(require('../assets/textures/texture.png'));
 
 export default function SewNewPatch() {
   const [initImageUri, setInitImageUri] = useState(null);
@@ -23,7 +31,7 @@ export default function SewNewPatch() {
   const [prompt, setPrompt] = useState('embroidery style, fabric texture, detailed stitching');
   const [resultUrl, setResultUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-//   const styleImage = require('./assets/textures/texture.jpg');
+  const navigation = useNavigation();
 
   const pickInitImage = async () => {
     try {
@@ -43,15 +51,58 @@ export default function SewNewPatch() {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+      if (cameraStatus.status !== 'granted') {
+        Alert.alert('Permission required', 'Camera access is needed to take pictures.');
+      }
+    })();
+  }, []);
+
+  const takePhoto = async () => {
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+      if (!result.canceled) {
+        setInitImageUri(result.assets[0].uri);
+        console.log('Photo taken:', result.assets[0].uri);
+      }
+    } catch (error) {
+      console.error('Error taking photo:', error);
+      Alert.alert('Error', 'Failed to take photo');
+    }
+  };
+
+  const getStyleImageFileUri = async () => {
+    const asset = Asset.fromModule(styleImage);
+    await asset.downloadAsync();
+
+    const dest = `${FileSystem.cacheDirectory}texture.jpg`;
+
+    await FileSystem.copyAsync({
+      from: asset.localUri,
+      to: dest,
+    });
+
+    return dest;
+  };
 
   const generateImage = async () => {
-    if (!initImageUri || !styleImageUri || !prompt.trim()) {
-      Alert.alert('Missing Input', 'Please select both images and enter a prompt');
+    if (!initImageUri || !prompt.trim()) {
+      Alert.alert('Missing Input', 'Please select an image and enter a prompt');
       return;
     }
 
     setLoading(true);
+
     try {
+      const styleImageUri = await getStyleImageFileUri();
+
       const formData = new FormData();
 
       formData.append('init_image', {
@@ -60,9 +111,8 @@ export default function SewNewPatch() {
         name: 'init_image.jpg',
       });
 
-      
       formData.append('style_image', {
-        uri: 'file:///../assets/textures/texture.PNG', 
+        uri: styleImageUri,
         type: 'image/jpeg',
         name: 'style_image.jpg',
       });
@@ -72,8 +122,6 @@ export default function SewNewPatch() {
       formData.append('cfg_scale', '7');
       formData.append('mode', 'image-to-image');
       formData.append('strength', '0.6');
-
-      // Text prompts array
       formData.append('text_prompts', JSON.stringify([
         { text: prompt, weight: 1 }
       ]));
@@ -81,7 +129,7 @@ export default function SewNewPatch() {
       const response = await fetch('https://api.stability.ai/v2beta/stable-image/control/style-transfer', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer sk-vU876F0koe0GH1ZyBWRlyb3uIOblqJJkG5ZAxueOOZtqfga7',
+          'Authorization': 'Bearer sk-L9PiQtppjb7qmvMFIYT4OofbP5xPPb0mkStWg1z1CA2zyXVN', // usa un env var qui idealmente
           'Accept': 'image/*',
         },
         body: formData,
@@ -92,17 +140,16 @@ export default function SewNewPatch() {
         const reader = new FileReader();
         reader.onloadend = () => {
           setResultUrl(reader.result);
-          console.log('Image generated successfully');
         };
         reader.readAsDataURL(imageBlob);
       } else {
         const errorText = await response.text();
-        console.error('API Error:', response.status, errorText);
-        Alert.alert('Error', `Failed to generate image: ${response.status}`);
+        Alert.alert('Error', `Failed to generate image: ${response.status}\n${errorText}`);
       }
+
     } catch (err) {
-      console.error('Network error:', err);
-      Alert.alert('Error', 'Network error occurred. Please check your connection.');
+      Alert.alert('Error', 'Network or file error occurred');
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -114,66 +161,63 @@ export default function SewNewPatch() {
       style={localStyles.container}
       resizeMode="cover"
     >
-    <Text style={styles.title}>Knit memory</Text>
+      <ScrollView contentContainerStyle={localStyles.container} showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>Knit memory</Text>
 
         <TouchableOpacity
-        style={styles.onlyButton}
-        onPress={pickInitImage} 
-      >
-        <Text style={styles.onlyButtonText}>Choose image</Text>
-      </TouchableOpacity>
-      
-      {initImageUri && (
-        <Image source={{ uri: initImageUri }} style={styles.preview} />
-      )}
-      
-      <TextInput
-        placeholder="Scrivi il prompt"
-        style={styles.input}
-        value={prompt}
-        onChangeText={setPrompt}
-        multiline
-      />
-    <TouchableOpacity
-        style={styles.onlyButton}
-        onPress={generateImage} 
-      >
-        <Text style={styles.onlyButtonText}>Knit...</Text>
-      </TouchableOpacity>
+          style={styles.onlyButton}
+          onPress={pickInitImage}
+        >
+          <Text style={styles.onlyButtonText}>Choose image</Text>
+        </TouchableOpacity>
 
-{loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" />
-          <Text style={styles.loadingText}>Generating embroidery-style image...</Text>
-        </View>
-      )}
+        <TouchableOpacity
+          style={styles.onlyButton}
+          onPress={takePhoto}
+        >
+          <Text style={styles.onlyButtonText}>Take a picture</Text>
+        </TouchableOpacity>
 
-      {resultUrl && (
-        <View style={styles.resultContainer}>
-          <Text style={styles.resultLabel}>Risultato:</Text>
-          <Image
-            source={{ uri: resultUrl }}
-            style={styles.result}
-          />
-        </View>
-      )}
-    {/* </ScrollView> */}
-        
+        {initImageUri && (
+          <Image source={{ uri: initImageUri }} style={styles.preview} />
+        )}
+
+        <TouchableOpacity
+          style={styles.onlyButton}
+          onPress={generateImage}
+        >
+          <Text style={styles.onlyButtonText}>Knit...</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.onlyButton}
+          onPress={() => { navigation.navigate('PageScarf') }}
+        >
+          <Text style={styles.onlyButtonText}>Sew to scarf</Text>
+        </TouchableOpacity>
+
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" />
+            <Text style={styles.loadingText}>Knitting...</Text>
+          </View>
+        )}
+
+        {resultUrl && (
+          <View style={styles.resultContainer}>
+            <Image source={{ uri: resultUrl }} style={styles.result} />
+          </View>
+        )}
+      </ScrollView>
     </ImageBackground>
   );
 }
 
 const localStyles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
-  },
-  heading: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    fontFamily: 'Marimpa',
+    padding: 20,
   },
 });
