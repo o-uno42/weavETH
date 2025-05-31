@@ -2,7 +2,8 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PageScarft from './app/PageScarf';
 import ShowCollection from './app/ShowCollection';
-import PatchInfoPage from './app/ScarfInfoPage';
+import PatchInfoPage from './app/PatchInfoPage';
+import SewNewPatch from './app/SewNewPatch';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function StackNavigator() {
       <Stack.Screen name="PageScarft" component={PageScarft} />
       <Stack.Screen name="ShowCollection" component={ShowCollection} />
       <Stack.Screen name="PatchInfoPage" component={PatchInfoPage} />
+      <Stack.Screen name="SewNewPatch" component={SewNewPatch} />
     </Stack.Navigator>
   );
 }

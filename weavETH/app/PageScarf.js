@@ -6,6 +6,7 @@ import { ImageBackground } from "react-native";  // Importa ImageBackground
 import styles from './styles.js';  // Assicurati di avere un file styles.js con gli stili definiti
 import ButtonGoBack from "../components/backButton.js";
 import SpecificScarf from "../specificScarf.js";
+// import SewNewPatch from "../components/SewNewPatch.js";  // Importa il componente SpecificScarf
 
 export default function Page() {
   const navigation = useNavigation();  // <-- Aggiungi questa riga
@@ -27,7 +28,7 @@ export default function Page() {
       </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.onlyButton}
-        onPress={() => navigation.navigate('ConnectWalletPage')}  // Ora navigation è definito
+        onPress={() => navigation.navigate('SewNewPatch')}  // Ora navigation è definito
       >
         <Text style={styles.onlyButtonText}>Sew new memory</Text>
       </TouchableOpacity>
