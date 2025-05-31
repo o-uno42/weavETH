@@ -4,13 +4,17 @@ import PageScarft from './app/PageScarf';
 import ShowCollection from './app/ShowCollection';
 import PatchInfoPage from './app/PatchInfoPage';
 import SewNewPatch from './app/SewNewPatch';
+import Index from './app/index.js';
+import ConnectWalletPage from './app/ConnectWalletPage';
+import About from './app/About';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Landing"
+      initialRouteName="Index"
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: 'transparent' },
@@ -18,12 +22,14 @@ export default function StackNavigator() {
       }}
     >
       {/* <Stack.Screen name="SplashScreen" component={SplashScreenAnimation} /> */}
-      <Stack.Screen name="Page" component={Page} />
+      <Stack.Screen name="Index" component={Index} />
       <Stack.Screen name="ConnectWalletPage" component={ConnectWalletPage} />
       <Stack.Screen name="PageScarft" component={PageScarft} />
       <Stack.Screen name="ShowCollection" component={ShowCollection} />
       <Stack.Screen name="PatchInfoPage" component={PatchInfoPage} />
       <Stack.Screen name="SewNewPatch" component={SewNewPatch} />
+      <Stack.Screen name="About" component={About} />
+      {/* Aggiungi altre schermate qui */}
     </Stack.Navigator>
   );
 }
