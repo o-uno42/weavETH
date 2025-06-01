@@ -1,10 +1,16 @@
 {
   "expo": {
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "imageWidth": 200,
+      "resizeMode": "contain",
+      "backgroundColor": "#e3cb85"
+    },
     "name": "Hack_prage",
     "slug": "Hack_prage",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "scheme": "hackprage",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

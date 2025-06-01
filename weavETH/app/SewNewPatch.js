@@ -27,6 +27,11 @@ import ButtonGoBack from "../components/backButton";
 // import { useNavigation } from 'expo-router';
 //
 
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 const styleImage = Image.resolveAssetSource(
   require("../assets/textures/texture.png")
 );
@@ -40,6 +45,7 @@ export default function SewNewPatch() {
   const [resultUrl, setResultUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     if (resultUrl) {
@@ -194,13 +200,21 @@ export default function SewNewPatch() {
         contentContainerStyle={localStyles.container}
         showsVerticalScrollIndicator={false}
       >
-        <TouchableOpacity style={styles.onlyButton} onPress={takePhoto}>
-          <Text style={styles.onlyButtonText}>Take a picture</Text>
+        <View style={localStyles.containerIcons}>
+        <TouchableOpacity onPress={takePhoto}>
+          <Image
+            style={localStyles.buttonIcon}
+            source={require("../assets/sprites/camera.png")}
+            />
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.onlyButton} onPress={pickInitImage}>
-          <Text style={styles.onlyButtonText}>Choose image</Text>
-        </TouchableOpacity>
+   <TouchableOpacity onPress={pickInitImage}>
+          <Image
+            style={localStyles.buttonIcon}
+            source={require("../assets/sprites/gallery.png")}
+            />
+         {/* <Text style={styles.onlyButtonText}>Choose image</Text> */}
+         </TouchableOpacity>
+        </View>
 
         {initImageUri && (
           <Image source={{ uri: initImageUri }} style={styles.preview} />
@@ -235,6 +249,7 @@ export default function SewNewPatch() {
           <Text style={styles.onlyButtonText}>Sew to scarf</Text>
         </TouchableOpacity>
       </ScrollView>
+      <ButtonGoBack/>
     </ImageBackground>
   );
 }
@@ -244,7 +259,7 @@ const localStyles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    // padding: 20,
   },
   title: {
     zIndex: 1,
@@ -257,4 +272,24 @@ const localStyles = StyleSheet.create({
     // color: '#fff',
     fontFamily: "Marimpa",
   },
+  containerIcons:{
+    flexDirection: "row",
+    // justifyContent: "space-around",
+    alignItems: "center",
+    gap: 0,
+    // width: "100%",
+    
+
+    // marginBottom: 0,
+  },
+  buttonIcon:{
+    // scale: 0.8,
+    
+    // width: screenWidth * 0.9,
+    // height: screenWidth * 0.15,
+    padding: 10,
+    width: 130,
+    height: 130,
+    // marginBottom: 20,
+  }
 });

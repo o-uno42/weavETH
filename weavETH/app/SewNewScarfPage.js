@@ -80,6 +80,7 @@ export default function SewNewScarf() {
           </View>
         )}
       </View>
+      <ButtonGoBack/>
     </ImageBackground>
   );
 }
