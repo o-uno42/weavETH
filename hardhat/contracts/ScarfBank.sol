@@ -14,6 +14,14 @@ import "./AchievementTokens.sol";
 	comment pending ...
 */
 
+/* TODO
+1. create matrix where vertical we have all the users scarfs and
+horizontally we have all the memoryIds of this scarfs
+2.k
+
+
+*/
+
 contract ScarfBank is ERC721, Ownable {
 	//EVENTS
 	event ScarfProposed(address owner,string msg, address coOwner);
@@ -89,19 +97,6 @@ contract ScarfBank is ERC721, Ownable {
 
 	//FUNCTIONS
 
-	//Flares random number generator
-	// function getSecureRandomNumber()
-	// 	internal
-        // view
-        // returns (uint256 randomNumber)
-    // {
-	// 	bool isSecure;
-        // (randomNumber, isSecure, ) = randomV2.getRandomNumber();
-	// 	if (!isSecure || randomNumber == 0)
-	// 		revert NumberInsecure("random number generated was insecure");
-        // require(isSecure, "Random number is not secure");
-        // return (randomNumber);
-    // }
 	//USER INTERFACE
 	//create wallet and token 
 	// 1st user starts stake
@@ -196,6 +191,39 @@ contract ScarfBank is ERC721, Ownable {
 
 		emit ScarfCreated(msg.sender, "created scarf with ", scarfBank[walletCount -1].owner1);
 	}
+	
+	//create 2d array for user; v - scarfid, h - memoryid
+	function user2dArray(address user) public view returns(uint256[][] memory ScarfArray) {
+		uint256[] storage userWallets = UserBank[user];
+		uint256[][] memory array = new uint256[][](userWallets.length);
+		for (uint256 i = 0; i < userWallets.length; i++) {
+			array[i] = scarfBank[userWallets[i]].memoryIds;
+		}
+		return array;
+	}
+
+	//2d array for scarfs and memoryIds
+	function scarfs2dArray() public view returns(uint256[][] memory ScarfArray) {
+		uint256[][] memory array = new uint256[][](walletCount);
+		for (uint256 i = 0; i < walletCount; i++) {
+			uint256[] storage memIds = scarfBank[i].memoryIds;
+			uint256[] memory memIdsCopy = new uint256[](memIds.length);
+			for (uint256 j = 0; j < memIds.length; j++) {
+				memIdsCopy[j] = memIds[j];
+			}
+			array[i] = memIdsCopy;
+		}
+		return array;
+	}
+
+	function scarfObjectArray(address user) public view returns(ScarfWallet[] memory wallets) {
+		ScarfWallet[] memory userWallets = new ScarfWallet[](UserBank[user].length);
+		for (uint256 i = 0; i < UserBank[user].length; i++) {
+			userWallets[i] = scarfBank[UserBank[user][i]];
+		}
+		return userWallets;
+	}
+
 
 	//change first token
 
@@ -220,9 +248,9 @@ contract ScarfBank is ERC721, Ownable {
 				revert NotEligible("you are not eligible for milestone prize");
 			address otherOwner;
 			if (scarfBank[scarfId].owner1 == msg.sender)
-				otherOwner = scarfBank[scarfId].owner1;
-			else
 				otherOwner = scarfBank[scarfId].owner2;
+			else
+				otherOwner = scarfBank[scarfId].owner1;
 			achievementTokens.mintAchievement(msg.sender, otherOwner, svgData);
 			scarfBank[scarfId].eligible = false;
 			emit AchievementClaimed("successfully Claimed prize");

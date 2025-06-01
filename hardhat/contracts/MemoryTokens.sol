@@ -33,6 +33,7 @@ contract MemoryTokens is ERC721, Ownable, ERC721URIStorage {
 	address public ScarfBankContract;
 	ScarfBank public scarfBank;
 
+	//TODO Big problem
 	uint256		memoryCount;
 	uint256		priceMEM = 10000000000;
 
