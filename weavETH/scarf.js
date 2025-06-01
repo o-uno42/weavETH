@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import { FlatList, Image, View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+
+//link
 const images = [
   { id: '1', src: require('./assets/1.jpg'), targetScreen: 'PageScarf' },
   { id: '2', src: require('./assets/2.jpg'), targetScreen: 'PageScarf' },
@@ -105,12 +107,13 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: -10,
     marginBottom: -10,
+    zIndex: 1,
   },
   thread: {
     width: screenWidth * 0.6,
     height: screenWidth * 0.6,
     position: 'absolute',
     top: -screenWidth * 0.31,
-    zIndex: 10,
+    // zIndex: 10,
   },
 });
