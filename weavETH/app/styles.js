@@ -2,12 +2,10 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-const commonFont = { fontFamily: 'Marimpa' };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    ...commonFont,
+    fontFamily: 'Marimpa',
   },
 
   content: {
@@ -19,14 +17,14 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 37, // was 32 + 5
-    ...commonFont,
+    fontFamily: 'Marimpa',
   },
 
   subtitle: {
     fontSize: 23, // was 18 + 5
     color: '#3366ff',
     marginTop: 10,
-    ...commonFont,
+    fontFamily: 'Marimpa',
   },
 
   button: {
@@ -45,36 +43,39 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'Marimpa',
   },
-imageButtonWrapper: {
-  width: screenWidth,
-  height: screenWidth,
-  // position: 'relative',
-  alignItems: 'center',
-  gap:-50,
+  imageButtonWrapper: {
+    width: screenWidth,
+    height: screenWidth,
+    // position: 'relative',
+    alignItems: 'center',
+    gap: -50,
 
-  marginBottom: screenHeight * 0.0005, // Adjust as needed
-  
-  // justifyContent: 'center',
-},
+    marginBottom: screenHeight * 0.0005, // Adjust as needed
 
-imageButton: {
-  width: '100%',
-  height: '100%',
-},
+    // justifyContent: 'center',
+  },
 
-imageButtonText: {
-  position: 'absolute',
-  color: '#fff',
-  fontSize: 24,
-  zIndex: 1,
-  top: '40%', // o usa flex per centrare meglio
-  ...commonFont,
-},
+  imageButton: {
+    width: '100%',
+    height: '100%',
+  },
 
-
+  imageButtonText: {
+    position: 'absolute',
+    color: '#fff',
+    fontSize: 24,
+    zIndex: 1,
+    top: '40%', // o usa flex per centrare meglio
+    fontFamily: 'Marimpa',
+  },
   text: {
     color: '#fff',
-    ...commonFont,
+    fontFamily: 'Marimpa',
+  },
+
+  textPlain: {
+    color: '#fff',
+    fontFamily: 'Marimpa',
   },
 
   backButton: {
@@ -127,7 +128,7 @@ imageButtonText: {
     color: '#660033',
     fontFamily: 'Marimpa',
   },
-  
+
   backButton: {
     // position: 'absolute',
     backgroundColor: '#ff9966',
@@ -148,13 +149,13 @@ imageButtonText: {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
-  notify:{
+  notify: {
     color: '#fff',
     paddingLeft: 60,
     paddingBottom: 8,
     // justifyContent: 'right',
-    ...commonFont,},
-
+    fontFamily: 'Marimpa',
+  },
 
   flatList: {
     flex: 1,
@@ -193,50 +194,50 @@ imageButtonText: {
     color: '#fff',
     fontWeight: '600',
     fontSize: 18,
-    ...commonFont,
+    fontFamily: 'Marimpa',
   },
 
   containerForButtons: {
     flex: 1,
     // justifyContent: 'center',
-     justifyContent: 'flex-end', 
+    justifyContent: 'flex-end',
     alignItems: 'center',
     // paddingHorizontal: 20,
     // paddingBottom: 5,
   },
-imageButtonWrapper: {
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: 50,
-},
-imageButtonHome: {
-  // width: screenWidth * 0.2,
-  height: screenWidth * 0.2,
-  // width: '100%',
-  // // width: au
-  // gap: 30,
-  
-  resizeMode: 'contain',
-  position: 'absolute',
-},
-imageButtonText:{
-  position: 'absolute',
-  color: '#fff',
-  fontSize: 24,
-  zIndex: 1,
-  bottom: 3, // o usa flex per centrare meglio
-  ...commonFont,
-},
-containerForButtonsHome: {
-  flex: 1,
-  flexDirection: 'column',
-  justifyContent: 'flex-end', // o 'flex-start' se preferisci
-  // alignItems: 'center',
+  imageButtonWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 50,
+  },
+  imageButtonHome: {
+    // width: screenWidth * 0.2,
+    height: screenWidth * 0.2,
+    // width: '100%',
+    // // width: au
+    // gap: 30,
 
-  // paddingVertical: 0,
-  gap: 40, // se supportato
-},
-  itemWrapper:{
+    resizeMode: 'contain',
+    position: 'absolute',
+  },
+  imageButtonText: {
+    position: 'absolute',
+    color: '#fff',
+    fontSize: 24,
+    zIndex: 1,
+    bottom: 3, // o usa flex per centrare meglio
+    fontFamily: 'Marimpa',
+  },
+  containerForButtonsHome: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end', // o 'flex-start' se preferisci
+    // alignItems: 'center',
+
+    // paddingVertical: 0,
+    gap: 40, // se supportato
+  },
+  itemWrapper: {
     margin: -100,
   },
   preview: {
@@ -274,9 +275,8 @@ containerForButtonsHome: {
     backgroundColor: '#f0f0f0',
   },
   disabledButton: {
-  opacity: 0.5,
-}
-
+    opacity: 0.5,
+  },
 });
 
 export default styles;

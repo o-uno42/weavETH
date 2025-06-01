@@ -23,6 +23,8 @@ export default function HomeScreen() {
   const { client } = useWalletConnectModal();
   const { open, isConnected, address, provider } = useWalletConnectModal();
   const [chainId, setChainId] = useState<number | null>(null);
+
+  
   useEffect(() => {
     const clearSessionsAndPairings = async () => {
       if (!client) return;
@@ -70,8 +72,8 @@ export default function HomeScreen() {
           style={styles.container}
           resizeMode="cover"  // opzioni: cover, contain, stretch, repeat
         >
-    <View style={styles.container}>
       <Text style={styles.heading}>Start knitting!</Text>
+    <View style={styles.container}>
       <Text>{isConnected ? address : '(no wallet connected)'}</Text>
 
       <ConnectWalletButton 
@@ -96,7 +98,7 @@ export default function HomeScreen() {
         chainId={chainId}
         open={open}
       />
-      <ShowCollectionButton/>
+      {isConnected && <ShowCollectionButton/>}
 
       
 
@@ -114,9 +116,19 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   heading: {
-    fontSize: 30,
+     marginTop: 40,
+    fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 16,
     fontFamily: 'Marimpa',
+        // fontFamily: "Marimpa",
+    color: "#ffffff",
+    // fontFamily: "Marimpa",
+    // fontSize: 16,
+    // lineHeight: 20,
+    // textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 });

@@ -94,7 +94,7 @@ const InviteFriendButton: React.FC<Props> = ({
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        keyboardType="numeric"
+        keyboardType="default"
         style={styles.input}
       />
       <TouchableOpacity

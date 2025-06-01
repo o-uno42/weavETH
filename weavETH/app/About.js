@@ -5,8 +5,8 @@ import {
   useWalletConnectModal,
 } from "@walletconnect/modal-react-native";
 import ConnectWalletButton from "@/components/connectWalletButton";
-import SetGreetingButton from "@/components/setGreetingsButton";
-import IncrementCounterButton from "@/components/incrementCounterButton";
+// import SetGreetingButton from "@/components/setGreetingsButton";
+// import IncrementCounterButton from "@/components/incrementCounterButton";
 import InviteFriendButton from "@/components/acceptInviteAFriend";
 import ShowCollectionButton from "@/components/showCollectionButton";
 import { ethers } from "ethers";
@@ -68,51 +68,7 @@ export default function About() {
           Backend: Tjaz Juvan / Fullstack: Amir Eid /Frontend - and graphics:
           Petra Giorgi
         </Text>
-        {/* 
-        <TouchableOpacity
-          style={styles.onlyButton}
-          onPress={pickInitImage}
-        >
-          <Text style={styles.onlyButtonText}>Choose image</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.onlyButton}
-          onPress={takePhoto}
-        >
-          <Text style={styles.onlyButtonText}>Take a picture</Text>
-        </TouchableOpacity>
-
-        {initImageUri && (
-          <Image source={{ uri: initImageUri }} style={styles.preview} />
-        )}
-
-        <TouchableOpacity
-          style={styles.onlyButton}
-          onPress={generateImage}
-        >
-          <Text style={styles.onlyButtonText}>Knit...</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.onlyButton}
-          onPress={() => { navigation.navigate('PageScarf') }}
-        >
-          <Text style={styles.onlyButtonText}>Sew to scarf</Text>
-        </TouchableOpacity>
-
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" />
-            <Text style={styles.loadingText}>Knitting...</Text>
-          </View>
-        )}
-
-        {resultUrl && (
-          <View style={styles.resultContainer}>
-            <Image source={{ uri: resultUrl }} style={styles.result} />
-          </View>
-        )} */}
+     
       </ScrollView>
     </ImageBackground>
   );
@@ -127,7 +83,7 @@ const localStyles = StyleSheet.create({
     padding: 20,
   },
   containerTexts: {
-    top: 60,
+    top: 0,
     // flex: 1,
     // flexGrow: 1,
     justifyContent: "center",
@@ -135,15 +91,27 @@ const localStyles = StyleSheet.create({
     gap: 20,
     padding: 20,
   },
+  
   localText: {
-    color: "3366ff",
+    // color: "3366ff",
     fontFamily: "Marimpa",
+    color: "#ffffff",
+    fontFamily: "Marimpa",
+    fontSize: 16,
+    lineHeight: 20,
+    // textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   localTitle: {
+    color: "#ffffff",
     fontSize: 50,
     // fontWeight: 'bold',
     marginTop: 30,
     fontFamily: "Marimpa",
-    color: "3366ff",
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 });
