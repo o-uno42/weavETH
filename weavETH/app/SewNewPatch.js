@@ -5,8 +5,8 @@ import {
   useWalletConnectModal,
 } from "@walletconnect/modal-react-native";
 import ConnectWalletButton from "@/components/connectWalletButton";
-import SetGreetingButton from "@/components/setGreetingsButton";
-import IncrementCounterButton from "@/components/incrementCounterButton";
+// import SetGreetingButton from "@/components/setGreetingsButton";
+// import IncrementCounterButton from "@/components/incrementCounterButton";
 import InviteFriendButton from "@/components/acceptInviteAFriend";
 import ShowCollectionButton from "@/components/showCollectionButton";
 import { ethers } from "ethers";

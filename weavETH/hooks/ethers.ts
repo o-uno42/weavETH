@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import { MEMORYTOKENS_ABI } from '@/constants/MemoryTokens_ABI';
+import { ACHIEVMENTTOKENS_ABI } from '@/constants/AchievmentTokens_ABI';
 import { SCARF_BANK_ABI } from '@/constants/ScarfBank_ABI';
 import { CONTRACT_ADDRESSES_BY_CHAIN} from '@/constants/addresses';
 
@@ -36,4 +37,15 @@ export const getMemoryTokensContract = (walletProvider: any, chainId: number) =>
   console.log('MemoryTokens address:', memoryTokensAddress);
   console.log('chainId:', chainId);
   return new ethers.Contract(memoryTokensAddress, MEMORYTOKENS_ABI, signer);
+};
+
+export const getAchievmentTokensContract = (walletProvider: any, chainId: number) => {
+  const signer = getSigner(walletProvider);
+  const achievmentTokensAddress = CONTRACT_ADDRESSES_BY_CHAIN[chainId]?.ACHIEVMENTTOKENS_ADDRESS;
+  if (!achievmentTokensAddress || !ethers.utils.isAddress(achievmentTokensAddress)) {
+      throw new Error(`Invalid or missing AchievmentTokens address for chainId ${chainId}`);
+  }
+  console.log('AchievmentTokens address:', achievmentTokensAddress);
+  console.log('chainId:', chainId);
+  return new ethers.Contract(achievmentTokensAddress, ACHIEVMENTTOKENS_ABI, signer);
 };

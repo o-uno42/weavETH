@@ -1,14 +1,9 @@
-export const SCARF_BANK_ABI = [
-  {
+export const AchievmentTokens_ABI = [
+    {
         "inputs": [
           {
             "internalType": "address",
             "name": "initialOwner",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "_achievementTokensContract",
             "type": "address"
           }
         ],
@@ -124,9 +119,14 @@ export const SCARF_BANK_ABI = [
             "internalType": "string",
             "name": "msg",
             "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "requiredAmount",
+            "type": "uint256"
           }
         ],
-        "name": "InitiatorStakeToLow",
+        "name": "InsuficentAmount",
         "type": "error"
       },
       {
@@ -137,40 +137,7 @@ export const SCARF_BANK_ABI = [
             "type": "string"
           }
         ],
-        "name": "InvalidUser",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          }
-        ],
-        "name": "NoContract",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          }
-        ],
-        "name": "NotEligible",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          }
-        ],
-        "name": "NumberInsecure",
+        "name": "NoScarfContract",
         "type": "error"
       },
       {
@@ -194,51 +161,6 @@ export const SCARF_BANK_ABI = [
         ],
         "name": "OwnableUnauthorizedAccount",
         "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "provided",
-            "type": "address"
-          }
-        ],
-        "name": "SameAddressProvided",
-        "type": "error"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "paidAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "requiredPrice",
-            "type": "uint256"
-          }
-        ],
-        "name": "StakeToLow",
-        "type": "error"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          }
-        ],
-        "name": "AchievementClaimed",
-        "type": "event"
       },
       {
         "anonymous": false,
@@ -294,6 +216,25 @@ export const SCARF_BANK_ABI = [
         "anonymous": false,
         "inputs": [
           {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "MEMid",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "minter",
+            "type": "address"
+          }
+        ],
+        "name": "Minted",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
             "indexed": true,
             "internalType": "address",
             "name": "previousOwner",
@@ -307,56 +248,6 @@ export const SCARF_BANK_ABI = [
           }
         ],
         "name": "OwnershipTransferred",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "internalType": "address",
-            "name": "initiator",
-            "type": "address"
-          }
-        ],
-        "name": "ScarfCreated",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "string",
-            "name": "msg",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "internalType": "address",
-            "name": "coOwner",
-            "type": "address"
-          }
-        ],
-        "name": "ScarfProposed",
         "type": "event"
       },
       {
@@ -383,74 +274,6 @@ export const SCARF_BANK_ABI = [
         ],
         "name": "Transfer",
         "type": "event"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "UserBank",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "achievementTokens",
-        "outputs": [
-          {
-            "internalType": "contract AchievementTokens",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "achievementTokensContract",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "memoryId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "scarfId",
-            "type": "uint256"
-          }
-        ],
-        "name": "addNewMemoryId",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
       },
       {
         "inputs": [
@@ -535,17 +358,22 @@ export const SCARF_BANK_ABI = [
       {
         "inputs": [
           {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to2",
+            "type": "address"
+          },
+          {
             "internalType": "string",
             "name": "svgData",
             "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "scarfId",
-            "type": "uint256"
           }
         ],
-        "name": "milestoneMinting",
+        "name": "mintAchievement",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -593,82 +421,6 @@ export const SCARF_BANK_ABI = [
           }
         ],
         "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "pendingProposals",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "hashCode",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "proposer",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "coOwner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "proposerStake",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "coOwnerStaked",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "priceSCARF",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "coOwner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "password",
-            "type": "uint256"
-          }
-        ],
-        "name": "proposeNewScarf",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "pass",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "payable",
         "type": "function"
       },
       {
@@ -732,132 +484,6 @@ export const SCARF_BANK_ABI = [
       {
         "inputs": [
           {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "scarfBank",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "hashCode",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "owner1",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "owner2",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "scarfId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "achievementLevel",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "eligible",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "password",
-            "type": "uint256"
-          }
-        ],
-        "name": "scarfCreation",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-          }
-        ],
-        "name": "scarfObjectArray",
-        "outputs": [
-          {
-            "components": [
-              {
-                "internalType": "uint256",
-                "name": "hashCode",
-                "type": "uint256"
-              },
-              {
-                "internalType": "address",
-                "name": "owner1",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "owner2",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "scarfId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "memoryIds",
-                "type": "uint256[]"
-              },
-              {
-                "internalType": "uint256",
-                "name": "achievementLevel",
-                "type": "uint256"
-              },
-              {
-                "internalType": "bool",
-                "name": "eligible",
-                "type": "bool"
-              }
-            ],
-            "internalType": "struct ScarfBank.ScarfWallet[]",
-            "name": "wallets",
-            "type": "tuple[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "scarfs2dArray",
-        "outputs": [
-          {
-            "internalType": "uint256[][]",
-            "name": "ScarfArray",
-            "type": "uint256[][]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
             "internalType": "address",
             "name": "operator",
             "type": "address"
@@ -869,19 +495,6 @@ export const SCARF_BANK_ABI = [
           }
         ],
         "name": "setApprovalForAll",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "newPrice",
-            "type": "uint256"
-          }
-        ],
-        "name": "setPriceSCARF",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -922,7 +535,7 @@ export const SCARF_BANK_ABI = [
         "inputs": [
           {
             "internalType": "uint256",
-            "name": "tokenId",
+            "name": "AchievementId",
             "type": "uint256"
           }
         ],
@@ -969,51 +582,6 @@ export const SCARF_BANK_ABI = [
           }
         ],
         "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-          }
-        ],
-        "name": "user2dArray",
-        "outputs": [
-          {
-            "internalType": "uint256[][]",
-            "name": "ScarfArray",
-            "type": "uint256[][]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "name": "userBalances",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "withdraw",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
